@@ -9,15 +9,16 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-dom.js"></script>
 	<script>
-		function Hola(props) {
+		function Saludar(props) {
 			const name = props.name
+			/*var name = props.name*/
 
 			return React.DOM.h1({
 				id: 'Title',
-			}, `Hola ${name}`)
+			}, `Hola ${name}` /*'Hola ' + name*/)
 		}
 
-		const hola = React.createElement(Hola, {
+		const hola = React.createElement(Saludar, {
 			name: 'Platzi',
 		})
 
@@ -27,9 +28,12 @@
 		)
 
 		setTimeout(
+			/*function(){*/
 			() => {
 				ReactDOM.render(
-					React.createElement(Hola, { name: 'Platzi!'}),
+					React.createElement(Saludar, { 
+						name: 'Jhon'
+					}),
 					document.getElementById('app')
 				)
 			},
