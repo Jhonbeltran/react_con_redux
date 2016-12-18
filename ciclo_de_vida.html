@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <main id="app"></main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.19.0/babel.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-dom.js"></script>
+  <script type="text/babel">
+    function ComponenteUI(props){
+      return (
+        <h1 id = "Title" onClick={props.onClick}>
+          Hola {props.name} {props.count}
+        </h1>
+      )
+    }
+
+    class Contenedor extends React.Component {
+      constructor(props) {
+        super(props);
+        
+        this.state = {
+          count: 0,
+        }
+
+        this.handleClick = this.handleClick.bind(this)
+      }
+
+      componentWillMount() {
+        alert('El componente se va a montar!')
+      }
+
+      componentDidMount() {
+        document.addEventListener('click', this.handleClick)
+      }
+
+      /*componentWillReceiveProps(nextProps) {
+        //si algo cambia de los props se ejecuta
+        this.setState({
+          count: this.state.count * 1,
+        })
+      }*/
+
+      shouldComponentUpdate(nextProps, nextState) {
+        return nextState.count !== this.state.count
+      }
+
+      componentWillUpdate(nextProps, nextState) {
+        alert('El componente se va a actualizar!')
+      }
+
+      componentDidUpdate(prevProps, prevState) {
+        alert('Coponente actualizado!')
+      }
+
+      componentWillUnmount() {
+        document.removeEventListener('click', this.handleClick)
+      }
+
+      handleClick(){
+        this.setState({
+          count: this.state.count + 1,
+        })
+      }
+
+      render() {
+        return (
+          <ComponenteUI 
+            name={this.props.name}
+            count={this.state.count}
+            onClick={this.handleClick}
+          />
+        )
+      }
+    }
+
+    ReactDOM.render(
+      <Contenedor name = "Platzi" /> ,
+      document.getElementById('app')
+    )
+  </script>
+</body>
+</html>
