@@ -12,7 +12,7 @@
   <script type="text/babel">
     function ComponenteUI(props){
       return (
-        <h1 id = "Title" onClick={props.onClick}>
+        <h1 id = "Title" onClick={props.onClick} onMouseEnter={props.onMouseEnter}>
           Hola {props.name} {props.count}
         </h1>
       )
@@ -66,12 +66,17 @@
         })
       }
 
+      handleMouseEnter(event){
+        console.log(event.target)
+      }
+
       render() {
         return (
           <ComponenteUI 
             name={this.props.name}
             count={this.state.count}
             onClick={this.handleClick}
+            onMouseEnter={this.handleMouseEnter}
           />
         )
       }
