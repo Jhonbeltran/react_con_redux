@@ -10,12 +10,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-dom.js"></script>
   <script type="text/babel">
-    function ComponenteUI(props){
+    function ComponenteUI(props, context){
       return (
         <h1 id = "Title" onClick={props.onClick} onMouseEnter={props.onMouseEnter}>
-          Hola {props.name} {props.count}
+          Hola {props.name} {context.count}
         </h1>
       )
+    }
+
+    ComponenteUI.contexTypes = {
+      count: React.PropTypes.number,
     }
 
     class Contenedor extends React.Component {
@@ -27,6 +31,12 @@
         }
 
         this.handleClick = this.handleClick.bind(this)
+      }
+
+      getChildContext(){
+        return {
+          count: this.state.count,
+        }
       }
 
       componentWillMount() {
@@ -80,6 +90,10 @@
           />
         )
       }
+    }
+
+    Contenedor.childContextTypes = {
+      count: React.PropTypes.number,
     }
 
     ReactDOM.render(
