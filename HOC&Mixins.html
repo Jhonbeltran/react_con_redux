@@ -10,13 +10,54 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-dom.js"></script>
   <script type="text/babel">
+    function Counter(WrappedComponet) {
+      class CounterHOC extends React.Component {
+        constructor(props){
+          super(props)
+
+          this.state = {
+            count: 0,
+          }
+
+          this.handleClick = this.handleClick.bind(this)
+        }
+
+        handleClick(){
+          this.setState({
+            count: this.state.count + 1,
+          })
+        }
+
+        getChildContext(){
+          return{
+            count: this.state.count,
+          }
+        }
+
+        render(){
+          return (
+            <WrappedComponet
+              onClick={this.handleClick}
+             {...this.props}
+            />)
+        }
+      }
+
+      CounterHOC.childContextTypes = {
+        count = React.PropTypes.number,
+      }
+
+      return CounterHOC
+    }
     function ComponenteUI(props, context){
       return (
-        <h1 id = "Title" onClick={props.onClick} onMouseEnter={props.onMouseEnter}>
+        <h1 id = "Title" onClick={props.onClick} >
           Hola {props.name} {context.count}
         </h1>
       )
     }
+
+    const HighOrderComponet = Counter(ComponenteUI)
 
     ComponenteUI.contexTypes = {
       count: React.PropTypes.number,
@@ -25,7 +66,7 @@
     class Contenedor extends React.Component {
       constructor(props) {
         super(props);
-        
+
         this.state = {
           count: 0,
         }
@@ -76,17 +117,12 @@
         })
       }
 
-      handleMouseEnter(event){
-        console.log(event.target)
-      }
-
       render() {
         return (
-          <ComponenteUI 
+          <ComponenteUI
             name={this.props.name}
             count={this.state.count}
             onClick={this.handleClick}
-            onMouseEnter={this.handleMouseEnter}
           />
         )
       }
@@ -97,7 +133,7 @@
     }
 
     ReactDOM.render(
-      <Contenedor name = "Platzi" /> ,
+      <HighOrderComponet name = "Platzi" /> ,
       document.getElementById('app')
     )
   </script>
