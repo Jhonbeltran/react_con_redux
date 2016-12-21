@@ -6,135 +6,91 @@
 </head>
 <body>
   <main id="app"></main>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.19.0/babel.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-dom.js"></script>
+  <div id="mix"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.18.2/babel.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
   <script type="text/babel">
-    function Counter(WrappedComponet) {
+    function Counter(WrappedComponent) {
       class CounterHOC extends React.Component {
-        constructor(props){
+        constructor(props) {
           super(props)
 
           this.state = {
             count: 0,
           }
 
-          this.handleClick = this.handleClick.bind(this)
+          this.handleClick = this.handleClick.bind(this);
         }
 
-        handleClick(){
+        getChildContext() {
+          return {
+            count: this.state.count,
+          }
+        }
+
+        handleClick() {
           this.setState({
             count: this.state.count + 1,
           })
         }
 
-        getChildContext(){
-          return{
-            count: this.state.count,
-          }
-        }
-
-        render(){
+        render() {
           return (
-            <WrappedComponet
+            <WrappedComponent
               onClick={this.handleClick}
-             {...this.props}
-            />)
+              {...this.props}
+            />
+          )
         }
       }
 
       CounterHOC.childContextTypes = {
-        count = React.PropTypes.number,
+        count: React.PropTypes.number,
       }
 
-      return CounterHOC
+      return CounterHOC;
     }
-    function ComponenteUI(props, context){
+
+    function ComponentUI(props, context) {
       return (
-        <h1 id = "Title" onClick={props.onClick} >
-          Hola {props.name} {context.count}
+        <h1 id="Title" onClick={props.onClick}>
+          Componente UI del curso de {props.name} contador = {context.count}
         </h1>
       )
     }
 
-    const HighOrderComponet = Counter(ComponenteUI)
-
-    ComponenteUI.contexTypes = {
-      count: React.PropTypes.number,
+    ComponentUI.contextTypes = {
+      count: React.PropTypes.number
     }
 
-    class Contenedor extends React.Component {
-      constructor(props) {
-        super(props);
+    const HighOrderComponet = Counter(ComponentUI);
 
-        this.state = {
-          count: 0,
-        }
+    const mixin = {
+      handleClick() {
+        console.log('clickeado')
+      },
+    }
 
-        this.handleClick = this.handleClick.bind(this)
-      }
-
-      getChildContext(){
-        return {
-          count: this.state.count,
-        }
-      }
-
-      componentWillMount() {
-        alert('El componente se va a montar!')
-      }
-
-      componentDidMount() {
-        document.addEventListener('click', this.handleClick)
-      }
-
-      /*componentWillReceiveProps(nextProps) {
-        //si algo cambia de los props se ejecuta
-        this.setState({
-          count: this.state.count * 1,
-        })
-      }*/
-
-      shouldComponentUpdate(nextProps, nextState) {
-        return nextState.count !== this.state.count
-      }
-
-      componentWillUpdate(nextProps, nextState) {
-        alert('El componente se va a actualizar!')
-      }
-
-      componentDidUpdate(prevProps, prevState) {
-        alert('Coponente actualizado!')
-      }
-
-      componentWillUnmount() {
-        document.removeEventListener('click', this.handleClick)
-      }
-
-      handleClick(){
-        this.setState({
-          count: this.state.count + 1,
-        })
-      }
-
+    const ComponentWithMixin = React.createClass({
+      mixins: [
+        mixin,
+      ],
       render() {
-        return (
-          <ComponenteUI
-            name={this.props.name}
-            count={this.state.count}
-            onClick={this.handleClick}
-          />
-        )
+        return <div onClick={this.handleClick}>
+          Componete con Mixin (si das click aparece en consola)
+        </div>
       }
-    }
-
-    Contenedor.childContextTypes = {
-      count: React.PropTypes.number,
-    }
+    })
 
     ReactDOM.render(
-      <HighOrderComponet name = "Platzi" /> ,
+      <HighOrderComponet name="Platzi" />,
       document.getElementById('app')
+    )
+
+    ReactDOM.render(
+      <ComponentWithMixin/>,
+      document.getElementById('mix')
     )
   </script>
 </body>
