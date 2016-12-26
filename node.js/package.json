@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Jhonbeltran/react_con_redux/issues"
   },
-  "homepage": "https://github.com/Jhonbeltran/react_con_redux#readme"
+  "homepage": "https://github.com/Jhonbeltran/react_con_redux#readme",
+  "dependencies": {
+    "react": "^15.4.1"
+  }
 }
