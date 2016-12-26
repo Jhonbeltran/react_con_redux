@@ -1,0 +1,22 @@
+{
+  "name": "proyecto_con_node",
+  "version": "0.0.1",
+  "description": "My very first proyect with React and Redux using node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jhonbeltran/react_con_redux/"
+  },
+  "author": "Jhonbeltran <jbeltranleon@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^1.14.0"
+  },
+  "dependencies": {
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1"
+  }
+}
