@@ -2,7 +2,7 @@ module.exports = {
   entry: '../source/server.js',
   output: {
     filename: 'index.js',
-    path: './build/server'
+    path: '../built/server'
   },
   module: {
     loader: [
